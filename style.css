@@ -1,0 +1,27 @@
+body{
+    background-color: rgba(221, 221, 221, 0.897);
+}
+
+h1{
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    font-family:Arial, Helvetica, sans-serif;
+    color: rgb(78, 76, 78);
+}
+main div{
+    display:flex;
+    flex-direction:column;
+}
+
+
+h5 {
+    font-size: 25px;
+
+}
+
+ svg{
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+ }
