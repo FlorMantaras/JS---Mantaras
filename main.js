@@ -18,84 +18,83 @@ const eventos = [
 let carrito = [];
 let opcion;
 
+function calcularTotal (){
 
-function show (selecShow){
-    alert (`Seleccionaste ${eventos [selecShow-1].artista} en ${eventos [selecShow-1].lugar} el día ${eventos [selecShow-1].fecha}, el precio de la entrada es $ ${eventos [selecShow-1].precio}`)
-    eventos[selecShow-1].entradas = Number (prompt (`¿Cuántas entradas desea comprar?`))
-    carrito.push(eventos[selecShow-1]);
-    console.log(carrito)
+    let total = 0;
+    
+    carrito.forEach((ev)=>{
+        total += ev.precio * ev.cantidad;
+    })
+    
+    const t = document.getElementById('total');
+    
+    t.innerHTML = `<h5> Total a pagar $ ${total}`
 }
 
-function pagar () {
-    let totalPagar = carrito.reduce((acc, al) => acc + al.precio * al.entradas,0);
-    alert (`Seleccionaste pagar entradas, vas a pagar: ${totalPagar} `);
-} 
-
 function agregarShowAlCarrito(id){
-    let t =eventos.find (t => t.id ===id );
+    let t = eventos.find (t => t.id ===id );
     let showEnCarrito = carrito.find(t => t.id ===id);
     if (showEnCarrito){
         showEnCarrito.cantidad ++;
         console.log(carrito)
     }else{
-        t.cantidad=1;
+        t.cantidad = 1;
         carrito.push(t);
         console.log(carrito)
     }
-    // renderizarCarrito();
+    renderizarCarrito();
+    calcularTotal ();
+    saveCarritoStorage (carrito);
 }
 
-// function renderizarCarrito(){
-//     let modCarrito = document.querySelector('#carrito')
+function eliminarProductoDelCarrito(index){
+
+    carrito[index].cantidad--;
     
-//     modCarrito.innerHTML = '';
+    if(carrito[index].cantidad === 0){
+        carrito.splice(index,1);
+    }
 
-//     carrito.forEach((ev,id)=>{
-//         let card = document.createElement(`div`);
-//         card.classList.add('col-12');  
-//         card.classList.add('col-md-4');
-//         card.classList.add('mb-5');
-//         card.classList.add('d-flex');
-//         card.classList.add('justify-content-center');
+    renderizarCarrito();
+    calcularTotal ();
+    saveCarritoStorage (carrito);
+}
+
+function renderizarCarrito(){
+    let modCarrito = document.querySelector('#carrito');
     
-//         card.innerHTML = `
-//         <div class="card" style="width: 18rem;">
-//         <img src="${ev.img}" class="card-img-top" alt="...">
-//         <div class="card-body">
-//           <h5 class="card-title">${ev.artista}</h5>
-//           <p class="card-text">Comprá tu entrada para el show de ${ev.artista} el día ${ev.fecha} en ${ev.lugar}. <br> El valor de la entrada es $ ${ev.precio}.-</p>
-//          <button class="btn btn-primary"id="${ev.id}">ELIMINAR</button>
-//         </div>
-//       </div>`
-            
-//        modCarrito.appendChild(card); 
-       
-       
-//     })
-// }
+    modCarrito.innerHTML = '';
 
-// do{
-//     opcion = Number(prompt('Elije la opcion deseada: \n1 - Comprar entradas show  \n2 - Pagar entradas seleccionadas \n3 - Salir'));
-//         if (opcion == 1){
-            
-//             let showSeleccionado = Number (prompt ("Seleccione a qué show desea asistir:\n1 -Canticuenticos, \n2 - Topa. \n3 - Luli Pampin"))
-            
-//                 if (showSeleccionado == 1 || showSeleccionado == 2 || showSeleccionado == 3){
-//                     show(showSeleccionado)
-//                 }else{
-//                     alert("La opcion seleccionada no existe");
-//                 }
-  
-//         }else if (opcion == 2){
-//             pagar(); 
-          
-//         }else if(opcion == 3){ 
-//             alert (`Te esperamos nuevamente, gracias por visitarnos`);
+    carrito.forEach((ev,index)=>{
+        let card = document.createElement('div');
+        card.classList.add('col-12');  
+        card.classList.add('col-md-4');
+        card.classList.add('mb-5');
+        card.classList.add('d-flex');
+        card.classList.add('justify-content-center');
+    
+        card.innerHTML = `
+        
+        <div class="card text-dark" style="width: 18rem;">
+            <img src="${ev.img}" class="card-img-top" alt="card img">
+            <div class="card-body">
+                <h5 class="card-title">${ev.artista}</h5>
+                <p class="card-text">Seleccionaste tu entrada para el show de ${ev.artista} el día ${ev.fecha} en ${ev.lugar}. <br> El valor de cada entrada es $ ${ev.precio}.-</p>
+                <p>Cantidad: ${ev.cantidad}</p>
+                <button class="btn btn-primary"id="${ev.id}">ELIMINAR</button>
+            </div>
+         </div>
+         `
+         
+        card.querySelector('button').addEventListener('click', () => {
+        
+            eliminarProductoDelCarrito (index)
+        })
+        
+        modCarrito.appendChild(card);    
+    })
+}
 
-//         }else{
-//             alert("La opcion seleccionada no existe");
-//         } 
-// }while (opcion != 3)
 
 function renderizarCard ()  {
     
@@ -129,3 +128,18 @@ function renderizarCard ()  {
 
 renderizarCard()
 
+const saveCarritoStorage = (carrito) => {
+    localStorage.setItem('carrito',JSON.stringify(carrito));
+};
+
+const getCarritoStorage = (carrito) => {
+    const CarritoStorage =JSON.parse(localStorage.getItem('carrito'));
+    return CarritoStorage;
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('carrito')){
+        carrito = getCarritoStorage ();
+        // agregarShowAlCarrito(carrito);    
+    }
+});

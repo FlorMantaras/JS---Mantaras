@@ -8,20 +8,15 @@ h1{
     font-weight: bold;
     font-family:Arial, Helvetica, sans-serif;
     color: rgb(78, 76, 78);
+    padding: 15px;
 }
-main div{
+/* main div{
     display:flex;
     flex-direction:column;
-}
+} */
 
 
 h5 {
-    font-size: 25px;
-
+    font-size: 20px;
 }
 
- svg{
-    width: 30px;
-    height: 30px;
-    margin: 10px;
- }
