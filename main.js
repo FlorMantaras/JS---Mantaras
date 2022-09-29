@@ -91,7 +91,7 @@ function renderizarCarrito(){
             eliminarProductoDelCarrito (index)
         })
         
-        modCarrito.appendChild(card);    
+        modCarrito.appendChild(card);
     })
 }
 
@@ -126,7 +126,6 @@ function renderizarCard ()  {
     }
 )}
 
-renderizarCard()
 
 const saveCarritoStorage = (carrito) => {
     localStorage.setItem('carrito',JSON.stringify(carrito));
@@ -139,7 +138,9 @@ const getCarritoStorage = (carrito) => {
 
 document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('carrito')){
-        carrito = getCarritoStorage ();
-        // agregarShowAlCarrito(carrito);    
+        carrito = getCarritoStorage();
+        renderizarCarrito(carrito);
     }
 });
+
+renderizarCard()
