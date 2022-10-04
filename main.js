@@ -31,17 +31,11 @@ function calcularTotal (){
     t.innerHTML = `<h5> Total a pagar $ ${total}`
 }
 
+
 function agregarShowAlCarrito(id){
     let t = eventos.find (t => t.id ===id );
     let showEnCarrito = carrito.find(t => t.id ===id);
-    if (showEnCarrito){
-        showEnCarrito.cantidad ++;
-        console.log(carrito)
-    }else{
-        t.cantidad = 1;
-        carrito.push(t);
-        console.log(carrito)
-    }
+    showEnCarrito ? showEnCarrito.cantidad ++ : (t.cantidad = 1, carrito.push(t))
     renderizarCarrito();
     calcularTotal ();
     saveCarritoStorage (carrito);
@@ -72,16 +66,18 @@ function renderizarCarrito(){
         card.classList.add('mb-5');
         card.classList.add('d-flex');
         card.classList.add('justify-content-center');
+        
+        const {img, artista, fecha, id, lugar, precio, cantidad} = ev
     
         card.innerHTML = `
         
         <div class="card text-dark" style="width: 18rem;">
-            <img src="${ev.img}" class="card-img-top" alt="card img">
+            <img src="${img}" class="card-img-top" alt="card img">
             <div class="card-body">
-                <h5 class="card-title">${ev.artista}</h5>
-                <p class="card-text">Seleccionaste tu entrada para el show de ${ev.artista} el día ${ev.fecha} en ${ev.lugar}. <br> El valor de cada entrada es $ ${ev.precio}.-</p>
-                <p>Cantidad: ${ev.cantidad}</p>
-                <button class="btn btn-primary"id="${ev.id}">ELIMINAR</button>
+                <h5 class="card-title">${artista}</h5>
+                <p class="card-text">Seleccionaste tu entrada para el show de ${artista} el día ${fecha} en ${lugar}. <br> El valor de cada entrada es $ ${precio}.-</p>
+                <p>Cantidad: ${cantidad}</p>
+                <button class="btn btn-primary"id="${id}">ELIMINAR</button>
             </div>
          </div>
          `
@@ -95,7 +91,6 @@ function renderizarCarrito(){
     })
 }
 
-
 function renderizarCard ()  {
     
     const tarj = document.getElementById(`tarjetasTienda`);
@@ -107,14 +102,16 @@ function renderizarCard ()  {
         card.classList.add('mb-5');
         card.classList.add('d-flex');
         card.classList.add('justify-content-center');
+        
+        const {img, artista, fecha, id, lugar, precio} = ev
     
         card.innerHTML = `
         <div class="card" style="width: 18rem;">
-        <img src="${ev.img}" class="card-img-top" alt="...">
+        <img src="${img}" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">${ev.artista}</h5>
-          <p class="card-text">Comprá tu entrada para el show de ${ev.artista} el día ${ev.fecha} en ${ev.lugar}. <br> El valor de la entrada es $ ${ev.precio}.-</p>
-         <button class="btn btn-primary"id="${ev.id}">COMPRAR</button>
+          <h5 class="card-title">${artista}</h5>
+          <p class="card-text">Comprá tu entrada para el show de ${artista} el día ${fecha} en ${lugar}. <br> El valor de la entrada es $ ${precio}.-</p>
+         <button class="btn btn-primary"id="${id}">COMPRAR</button>
         </div>
       </div>`
     
@@ -126,14 +123,13 @@ function renderizarCard ()  {
     }
 )}
 
-
 const saveCarritoStorage = (carrito) => {
     localStorage.setItem('carrito',JSON.stringify(carrito));
 };
 
 const getCarritoStorage = (carrito) => {
     const CarritoStorage =JSON.parse(localStorage.getItem('carrito'));
-    return CarritoStorage;
+    return CarritoStorage || [];
 };
 
 document.addEventListener('DOMContentLoaded', () => {
