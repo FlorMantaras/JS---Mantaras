@@ -15,6 +15,14 @@ const eventos = [
     new Evento ("Luli Pampin", "Casa España", "07/10/2022", 2800,"./assets/img/luli.jpg","3"),
 ]
 
+const eventosNoviembre22 = [
+    new Evento ("Tiempo de Sol", "Casa España", "12/11/2022", 3200, './assets/img/tiempodesol.jpg',"4")
+]
+
+const todosEventos = [...eventos,...eventosNoviembre22];
+
+console.log(todosEventos)
+
 let carrito = [];
 let opcion;
 
@@ -33,7 +41,7 @@ function calcularTotal (){
 
 
 function agregarShowAlCarrito(id){
-    let t = eventos.find (t => t.id ===id );
+    let t = todosEventos.find (t => t.id ===id );
     let showEnCarrito = carrito.find(t => t.id ===id);
     showEnCarrito ? showEnCarrito.cantidad ++ : (t.cantidad = 1, carrito.push(t))
     renderizarCarrito();
@@ -95,7 +103,7 @@ function renderizarCard ()  {
     
     const tarj = document.getElementById(`tarjetasTienda`);
     
-    eventos.forEach((ev) => {
+    todosEventos.forEach((ev) => {
         let card = document.createElement(`div`);
         card.classList.add('col-12');  
         card.classList.add('col-md-4');
