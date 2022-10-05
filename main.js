@@ -26,6 +26,7 @@ console.log(todosEventos)
 let carrito = [];
 let opcion;
 
+
 function calcularTotal (){
 
     let total = 0;
@@ -106,7 +107,7 @@ function renderizarCard ()  {
     todosEventos.forEach((ev) => {
         let card = document.createElement(`div`);
         card.classList.add('col-12');  
-        card.classList.add('col-md-4');
+        card.classList.add('col-md-3');
         card.classList.add('mb-5');
         card.classList.add('d-flex');
         card.classList.add('justify-content-center');
@@ -127,6 +128,24 @@ function renderizarCard ()  {
         
         card.querySelector('button').addEventListener('click', () =>{
         agregarShowAlCarrito(ev.id)
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-start',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          
+          Toast.fire({
+            icon: 'success',
+            title: `Entrada de ${artista} agregada con éxito`
+          })
+        
+        
         });
     }
 )}
@@ -148,3 +167,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 renderizarCard()
+
+// const btn = document.querySelector('.btn');
+
+// btn.addEventListener('click', () => {
+
+//     const Toast = Swal.mixin({
+//         toast: true,
+//         position: 'top-start',
+//         showConfirmButton: false,
+//         timer: 2000,
+//         timerProgressBar: false,
+//         didOpen: (toast) => {
+//           toast.addEventListener('mouseenter', Swal.stopTimer)
+//           toast.addEventListener('mouseleave', Swal.resumeTimer)
+//         }
+//       })
+      
+//       Toast.fire({
+//         icon: 'success',
+//         title: 'Carrito actualizado con éxito'
+//       })
+
+// })
