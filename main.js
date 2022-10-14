@@ -130,7 +130,7 @@ function renderizarCard ()  {
         agregarShowAlCarrito(ev.id)
         const Toast = Swal.mixin({
             toast: true,
-            position: 'top-start',
+            position: 'top',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: false,
@@ -166,27 +166,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+async function dolar (){
+    const events = document.getElementById('footer');
+    
+    const response = await fetch('https://www.dolarsi.com/api/api.php?type=valoresprincipales')
+    
+    const data = await response.json()
+    console.log(data)
+    events.innerHTML = `
+                        <p class="tipoDolar"> ${data[1].casa.nombre} </p>
+                        <p class="valorDolar"> Compra: ${data[1].casa.compra} -  Venta: ${data [1].casa.venta} </p>
+
+                        `
+    }
+    
+dolar ()
 renderizarCard()
 
-// const btn = document.querySelector('.btn');
-
-// btn.addEventListener('click', () => {
-
-//     const Toast = Swal.mixin({
-//         toast: true,
-//         position: 'top-start',
-//         showConfirmButton: false,
-//         timer: 2000,
-//         timerProgressBar: false,
-//         didOpen: (toast) => {
-//           toast.addEventListener('mouseenter', Swal.stopTimer)
-//           toast.addEventListener('mouseleave', Swal.resumeTimer)
-//         }
-//       })
-      
-//       Toast.fire({
-//         icon: 'success',
-//         title: 'Carrito actualizado con éxito'
-//       })
-
-// })

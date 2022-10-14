@@ -20,6 +20,22 @@ h5 {
     font-size: 20px;
 }
 
+.tipoDolar {
+    font-size: 18px;
+    font-weight: bold;
+    font-style: oblique;
+    padding: 8px;
+    text-align: center;
+}
+
+.valorDolar{
+    font-style: oblique;
+    padding: 12px;
+    text-align: center;
+}
+
+
+
 /* #tarjetasTienda{
     display: flex;
 } */
