@@ -1,18 +1,43 @@
 let carrito = [];
-let opcion;
+
+const tot = document.getElementById('total');
+const boton = document.getElementById('btnVacCarrito')
+
+function finalizarCompra(){
+    
+    Swal.fire({
+        title: 'Desea finalizar la compra?',
+        text: "",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Gracias por la compra!',
+            'Lo redireccionamos a la pantalla de pago',
+            'success'
+          )
+          vaciarCarrito();
+        }
+      })    
+}
+
 
 
 function calcularTotal (){
+
+    tot.innerHTML = ``
 
     let total = 0;
     
     carrito.forEach((ev)=>{
         total += ev.precio * ev.cantidad;
     })
-    
-    const t = document.getElementById('total');
-    
-    t.innerHTML = `<h5> Total a pagar $ ${total}`
+      
+    tot.innerHTML = `<h5> Total a pagar $ ${total}`
 }
 
 
@@ -23,6 +48,7 @@ function agregarShowAlCarrito(id){
     renderizarCarrito();
     calcularTotal ();
     saveCarritoStorage (carrito);
+    console.log (carrito)
 }
 
 function eliminarProductoDelCarrito(index){
@@ -32,10 +58,17 @@ function eliminarProductoDelCarrito(index){
     if(carrito[index].cantidad === 0){
         carrito.splice(index,1);
     }
-
     renderizarCarrito();
     calcularTotal ();
     saveCarritoStorage (carrito);
+    
+}
+
+function vaciarCarrito (){  
+    
+    carrito = [];
+    renderizarCarrito();
+   
 }
 
 function renderizarCarrito(){
@@ -73,6 +106,25 @@ function renderizarCarrito(){
         
         modCarrito.appendChild(card);
     })
+    
+    let btnVaciar = document.getElementById('btnVaciar');
+
+         btnVaciar.innerHTML = `
+                        <button class="btn btn-primary"id="btnVacCarrito"> VACIAR CARRITO </button>
+                        `
+        btnVaciar.querySelector('button').addEventListener('click', () => {
+            vaciarCarrito();
+    })
+        
+    let btnFinCpra = document.getElementById ('FinalizarCpra');
+        
+        btnFinCpra.innerHTML = `
+                        <button class="btn btn-primary"id="btnVacCarrito"> FINALIZAR COMPRA </button>
+                        `
+        btnFinCpra.querySelector('button').addEventListener('click', () => {
+        finalizarCompra();
+        })
+        calcularTotal();   
 }
 
 function renderizarCard ()  {
@@ -102,7 +154,9 @@ function renderizarCard ()  {
         tarj.appendChild(card);
         
         card.querySelector('button').addEventListener('click', () =>{
+        
         agregarShowAlCarrito(ev.id)
+        
         const Toast = Swal.mixin({
             toast: true,
             position: 'top',
@@ -141,4 +195,5 @@ async function dolar (){
     
 dolar ()
 renderizarCard()
+
 

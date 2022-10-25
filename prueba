@@ -1,0 +1,10 @@
+let data =[1,2,3]
+
+let data1 = data.forEach (elem => elem >1);
+
+let data2 = data1.shit()
+
+console.log(data2)
+
+
+
