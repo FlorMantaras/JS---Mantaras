@@ -25,8 +25,6 @@ function finalizarCompra(){
       })    
 }
 
-
-
 function calcularTotal (){
 
     tot.innerHTML = ``
@@ -42,6 +40,7 @@ function calcularTotal (){
 
 
 function agregarShowAlCarrito(id){
+
     let event = todosEventos.find (event => event.id ===id );
     let showEnCarrito = carrito.find(event => event.id ===id);
     showEnCarrito ? showEnCarrito.cantidad ++ : (event.cantidad = 1, carrito.push(event))
@@ -173,8 +172,6 @@ function renderizarCard ()  {
             icon: 'success',
             title: `Entrada de ${artista} agregada con éxito`
           })
-        
-        
         });
     }
 )}
